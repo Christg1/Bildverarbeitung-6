@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ * BV Ue6 SS2023 Vorgabe
+ *
+ * Copyright (C) 2023 by Klaus Jung
+ * All rights reserved.
+ * Date: 2023-03-23 		   	  	  		
+-->
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="800.0" maxWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bv_ss23.DPCMAppController">
+   <center>
+      <GridPane hgap="5.0" vgap="5.0" BorderPane.alignment="CENTER">
+         <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
+            <RowConstraints minHeight="80.0" valignment="TOP" vgrow="NEVER" />
+         </rowConstraints>
+         <children>
+            <TitledPane collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Original Image">
+               <content>
+                  <ScrollPane fx:id="originalScrollPane" pannable="true">
+                     <content>
+                        <ImageView fx:id="originalImageView" pickOnBounds="true" preserveRatio="true" smooth="false" />
+                     </content>
+                  </ScrollPane>
+               </content>
+            </TitledPane>
+            <TitledPane collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Reconstructed Image" GridPane.columnIndex="2">
+               <content>
+                  <ScrollPane fx:id="reconstructedScrollPane" pannable="true">
+                     <content>
+                        <ImageView fx:id="reconstructedImageView" pickOnBounds="true" preserveRatio="true" smooth="false" />
+                     </content>
+                  </ScrollPane>
+               </content>
+            </TitledPane>
+            <TitledPane collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Prediction Error Image" GridPane.columnIndex="1">
+               <content>
+                  <ScrollPane fx:id="errorScrollPane" pannable="true">
+                     <content>
+                        <ImageView fx:id="errorImageView" onMouseClicked="#mouseClicked" onMousePressed="#mousePressed" pickOnBounds="true" preserveRatio="true" smooth="false" />
+                     </content>
+                  </ScrollPane>
+               </content>
+            </TitledPane>
+            <VBox spacing="5.0" GridPane.rowIndex="1">
+               <children>
+                  <Label fx:id="originalEntropyLabel" text="Entropy = 9.999" />
+                  <Button mnemonicParsing="false" onAction="#openImage" prefHeight="27.0" text="Open Image" VBox.vgrow="NEVER" />
+               </children>
+            </VBox>
+            <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <Label fx:id="errorEntropyLabel" text="Entropy = 9.999" />
+                  <GridPane hgap="5.0" VBox.vgrow="NEVER">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" />
+                      <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+                      <ColumnConstraints hgrow="NEVER" minWidth="38.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="27.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="27.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="27.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Quantization:" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Label>
+                        <Slider fx:id="quantizationSlider" blockIncrement="1.0" min="1.0" onKeyReleased="#quantizationChanged" onMouseClicked="#quantizationChanged" onMouseDragged="#quantizationChanged" value="1.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </GridPane.margin>
+                        </Slider>
+                        <Label fx:id="quantizationLabel" text="1.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Label text="Predictor:" GridPane.rowIndex="1" />
+                        <ComboBox fx:id="predictionSelection" maxWidth="1.7976931348623157E308" onAction="#predictionTypeChanged" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Zoom:" />
+                        <Slider fx:id="zoomSlider" blockIncrement="1.0" max="20.0" min="1.0" onKeyReleased="#zoomChanged" onMouseClicked="#zoomChanged" onMouseDragged="#zoomChanged" value="1.0" GridPane.columnIndex="1">
+                           <GridPane.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </GridPane.margin>
+                        </Slider>
+                        <Label fx:id="zoomLabel" text="1.0" GridPane.columnIndex="2" />
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
+            <VBox spacing="5.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <children>
+                  <GridPane hgap="10.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="50.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label fx:id="reconstructedEntropyLabel" text="Entropy = 9.999" />
+                        <Label fx:id="resonstructedMSELabel" text="MSE = 0.0" GridPane.columnIndex="1" />
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
+         </children>
+      </GridPane>
+   </center>
+   <bottom>
+      <Label fx:id="messageLabel" text="Message Label" BorderPane.alignment="CENTER" />
+   </bottom>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</BorderPane>
